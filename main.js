@@ -1,4 +1,4 @@
-import '/style.css';
+// import '/style.css'; // Redundant as it's in index.html
 
 // --- State Management ---
 const state = {
@@ -322,7 +322,7 @@ function handleAudioUpload(e) {
 }
 
 // Start when DOM is fully loaded
-window.addEventListener('load', () => {
+document.addEventListener('DOMContentLoaded', () => {
   try {
     init();
   } catch (err) {
