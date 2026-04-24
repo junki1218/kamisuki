@@ -53,6 +53,10 @@ h1, h2, .font-mono {
 .gap-4 { gap: 1rem; }
 .overflow-hidden { overflow: hidden; }
 .overflow-y-auto { overflow-y: auto; }
+.max-h-30vh { max-height: 30vh; }
+.max-h-40vh { max-height: 40vh; }
+.max-h-50vh { max-height: 50vh; }
+.object-contain { object-fit: contain; }
 
 /* Text sizes */
 .text-xs { font-size: 0.75rem; }
@@ -219,6 +223,12 @@ video#timer-video {
 
 .drop-shadow-neon {
   filter: drop-shadow(0 0 15px var(--neon-pink));
+}
+
+#celebration-img {
+  max-width: 80%;
+  max-height: 35vh;
+  margin: 0 auto;
 }
 
 /* --- Settings --- */

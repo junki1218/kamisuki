@@ -16,7 +16,7 @@
     <div id="screen-start" class="screen active flex flex-col items-center justify-center gap-12 p-8 relative">
       <div id="start-bg" class="absolute inset-0 z-0 opacity-60"></div>
       <h1 class="logo-text neon-pink text-6xl md:text-8xl relative z-10">Kamiski</h1>
-      <button id="btn-goto-timer" class="neon-btn neon-pink-border text-4xl px-16 py-8 rounded-full relative z-10">スタート</button>
+      <button id="btn-goto-timer" class="neon-btn neon-pink-border text-4xl px-16 py-8 rounded-full relative z-10">はじめる</button>
       <button id="btn-goto-settings" class="neon-btn neon-green-border text-2xl px-8 py-4 rounded-full mt-4 relative z-10">せってい</button>
     </div>
 
@@ -28,10 +28,10 @@
       </div>
 
       <!-- アニメーション/動画エリア -->
-      <div id="animation-area" class="flex-grow flex items-center justify-center w-full max-h-[50vh] my-4 relative overflow-hidden">
+      <div id="animation-area" class="flex-grow flex items-center justify-center w-full max-h-40vh my-4 relative overflow-hidden">
         <div id="placeholder-text" class="text-gray-600 text-xl border-2 border-dashed border-gray-700 p-8 rounded-lg">あにめーしょん</div>
         <video id="timer-video" class="hidden w-full h-full object-contain" loop muted playsinline></video>
-        <img id="celebration-img" class="hidden max-h-full object-contain drop-shadow-neon" src="" alt="おめでとう">
+        <img id="celebration-img" class="hidden object-contain drop-shadow-neon" src="" alt="おめでとう">
       </div>
 
       <!-- デジタルタイマー表示 -->
