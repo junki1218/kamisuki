@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Zen+Maru+Gothic:wght@400;700&display=swap');
+
+:root {
+  --neon-pink: #ff00ff;
+  --neon-green: #00ff00;
+  --neon-yellow: #ffff00;
+  --neon-purple: #bc13fe;
+  --neon-white: #ffffff;
+  --bg-black: #050505;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background-color: var(--bg-black);
+  color: var(--neon-white);
+  font-family: 'Zen Maru Gothic', sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
+
+#app {
+  height: 100vh;
+  width: 100vw;
+}
+
+h1, h2, .font-mono {
+  font-family: 'Orbitron', sans-serif;
+}
+
+/* --- Layout Utility Classes (Since we're not using Tailwind) --- */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-grow { flex-grow: 1; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-start { justify-content: flex-start; }
+.flex-wrap { flex-wrap: wrap; }
+.w-full { width: 100%; }
+.h-full { height: 100%; }
+.relative { position: relative; }
+.fixed { position: fixed; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.p-8 { padding: 2rem; }
+.gap-8 { gap: 2rem; }
+.gap-4 { gap: 1rem; }
+.overflow-hidden { overflow: hidden; }
+.overflow-y-auto { overflow-y: auto; }
+
+/* Text sizes */
+.text-xs { font-size: 0.75rem; }
+.text-sm { font-size: 0.875rem; }
+.text-xl { font-size: 1.25rem; }
+.text-2xl { font-size: 1.5rem; }
+.text-3xl { font-size: 1.875rem; }
+.text-4xl { font-size: 2.25rem; }
+.text-5xl { font-size: 3rem; }
+.text-6xl { font-size: 3.75rem; }
+.text-8xl { font-size: 6rem; }
+.text-9xl { font-size: 8rem; }
+
+/* Spacing */
+.mt-4 { margin-top: 1rem; }
+.mb-4 { margin-bottom: 1rem; }
+.my-4 { margin-top: 1rem; margin-bottom: 1rem; }
+.px-4 { padding-left: 1rem; padding-right: 1rem; }
+.px-8 { padding-left: 2rem; padding-right: 2rem; }
+.px-12 { padding-left: 3rem; padding-right: 3rem; }
+.px-16 { padding-left: 4rem; padding-right: 4rem; }
+.px-20 { padding-left: 5rem; padding-right: 5rem; }
+.py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+.py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+.py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+
+/* Border radius */
+.rounded-lg { border-radius: 0.5rem; }
+.rounded-2xl { border-radius: 1rem; }
+.rounded-3xl { border-radius: 1.5rem; }
+.rounded-full { border-radius: 9999px; }
+
+/* Other */
+.hidden { display: none !important; }
+.pointer-events-none { pointer-events: none; }
+.z-50 { z-index: 50; }
+.z-40 { z-index: 40; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+.duration-100 { duration: 100ms; }
+.opacity-0 { opacity: 0; }
+
+.screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-color: var(--bg-black);
+}
+
+.screen.active {
+  display: flex !important;
+}
+
+.logo-text {
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+#start-bg {
+  background-image: url('/assets/start_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.8 !important; /* Increase visibility */
+}
+
+video#timer-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Fill the area */
+  display: block;
+}
+
+/* --- Neon Effects --- */
+.neon-pink {
+  text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink), 0 0 40px var(--neon-pink);
+}
+.neon-green {
+  text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green), 0 0 40px var(--neon-green);
+}
+.neon-yellow {
+  text-shadow: 0 0 10px var(--neon-yellow), 0 0 20px var(--neon-yellow), 0 0 40px var(--neon-yellow);
+}
+.neon-white {
+  text-shadow: 0 0 10px var(--neon-white), 0 0 20px var(--neon-white);
+}
+
+.neon-pink-border { border: 4px solid var(--neon-pink); box-shadow: 0 0 15px var(--neon-pink), inset 0 0 10px var(--neon-pink); }
+.neon-green-border { border: 4px solid var(--neon-green); box-shadow: 0 0 15px var(--neon-green), inset 0 0 10px var(--neon-green); }
+.neon-yellow-border { border: 4px solid var(--neon-yellow); box-shadow: 0 0 15px var(--neon-yellow), inset 0 0 10px var(--neon-yellow); }
+.neon-purple-border { border: 4px solid var(--neon-purple); box-shadow: 0 0 15px var(--neon-purple), inset 0 0 10px var(--neon-purple); }
+.neon-white-border { border: 4px solid var(--neon-white); box-shadow: 0 0 10px var(--neon-white); }
+
+.neon-btn {
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: bold;
+  flex: 0 0 auto;
+  min-width: 200px;
+  height: auto;
+  padding: 1rem 2rem;
+  margin: 10px;
+}
+
+.neon-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 0 30px white;
+}
+
+.timer-btn {
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s, box-shadow 0.1s;
+  flex-shrink: 0; /* Important! */
+}
+
+.timer-btn:active {
+  transform: scale(0.9);
+}
+
+/* --- Animations --- */
+@keyframes flash-white {
+  0%, 100% { opacity: 0; background-color: white; }
+  50% { opacity: 1; background-color: white; }
+}
+
+#flash-overlay.active-white {
+  animation: flash-white 0.8s infinite;
+  background-color: white;
+}
+
+#flash-overlay.active-img {
+  opacity: 1;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+@keyframes flash-preset {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+.animate-flash {
+  animation: flash-white 0.8s infinite;
+}
+
+.progress-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+#progress-bar {
+  box-shadow: 0 0 20px var(--neon-green);
+}
+
+.drop-shadow-neon {
+  filter: drop-shadow(0 0 15px var(--neon-pink));
+}
+
+/* --- Settings --- */
+.neon-input {
+  background: #1a1a1a;
+  border: 2px solid var(--neon-green);
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  margin-top: 5px;
+}
+
+.neon-btn-simple {
+  background: #222;
+  border: 1px solid white;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.img-preview img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  display: block;
+}
+
+.img-preview {
+  background: #111;
+  text-align: center;
+  width: 150px;
+  overflow: hidden;
+  margin: 0 auto; /* Center in grid */
+}
+
+/* New styles for radio buttons */
+.neon-radio-label {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid var(--neon-yellow);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+  background-color: #1a1a1a;
+}
+
+.neon-radio-label:hover {
+  background-color: #2a2a2a;
+}
+
+.neon-radio-label input[type="radio"] {
+  display: none; /* Hide the actual radio button */
+}
+
+.neon-radio-label input[type="radio"]:checked + * {
+  /* This is a bit tricky without a sibling selector. Let's handle it in JS or change structure */
+  /* For now, we'll change the label style itself when its input is checked */
+}
+
+input[type="radio"]:checked + .neon-radio-label {
+    background-color: var(--neon-yellow);
+    color: #111;
+    font-weight: bold;
+    box-shadow: 0 0 15px var(--neon-yellow);
+}
+/* We need to adjust the HTML for the above CSS to work, or handle it via JS. */
+/* Let's stick to a simpler JS-based approach. The label itself will be the target. */
+
+.neon-radio-label.checked {
+  background-color: var(--neon-yellow);
+  color: #111;
+  font-weight: bold;
+  box-shadow: 0 0 15px var(--neon-yellow);
+}
+
+
+/* --- Alert Appearance --- */
+.neon-btn-flash {
+  box-shadow: 0 0 50px white;
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
