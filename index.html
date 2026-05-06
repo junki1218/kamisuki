@@ -8,34 +8,49 @@
 </head>
 <body class="bg-black text-neon-white overflow-hidden">
   <div id="app" class="relative w-full h-screen overflow-hidden flex flex-col">
-    
+
     <!-- 点滅用オーバーレイ -->
-    <div id="flash-overlay" class="fixed inset-0 pointer-events-none opacity-0 z-50 transition-opacity duration-100"></div>
+    <div id="flash-overlay" class="fixed inset-0 pointer-events-none opacity-0 z-50"></div>
 
     <!-- スタート画面 -->
     <div id="screen-start" class="screen active flex flex-col items-center justify-center gap-12 p-8 relative">
       <div id="start-bg" class="absolute inset-0 z-0 opacity-60"></div>
-      <h1 class="logo-text neon-pink text-6xl md:text-8xl relative z-10">Kamiski</h1>
+      <h1 class="logo-text neon-pink text-6xl relative z-10">Kamiski</h1>
       <button id="btn-goto-timer" class="neon-btn neon-pink-border text-4xl px-16 py-8 rounded-full relative z-10">はじめる</button>
       <button id="btn-goto-settings" class="neon-btn neon-green-border text-2xl px-8 py-4 rounded-full mt-4 relative z-10">せってい</button>
     </div>
 
     <!-- タイマー画面 -->
     <div id="screen-timer" class="screen flex flex-col items-center justify-between py-8 px-4 h-full">
-      <!-- 上部進行バー -->
-      <div class="progress-container w-full h-8 bg-gray-900 rounded-full overflow-hidden neon-white-border">
-        <div id="progress-bar" class="h-full bg-neon-green w-full"></div>
+
+      <!-- ヘッダー：ナビボタン ＋ プログレスバー -->
+      <div class="timer-header">
+        <div class="timer-nav-btns">
+          <button id="btn-pause-timer" class="icon-btn" aria-label="一時停止">
+            <!-- JS が SVG を挿入 -->
+          </button>
+          <button id="btn-home-timer" class="icon-btn" aria-label="ホーム">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="1.4em" height="1.4em">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+            </svg>
+          </button>
+        </div>
+        <div class="progress-wrapper">
+          <div class="progress-container h-10 bg-gray-900 rounded-full overflow-hidden neon-white-border">
+            <div id="progress-bar" class="h-full w-full"></div>
+          </div>
+        </div>
       </div>
 
       <!-- アニメーション/動画エリア -->
       <div id="animation-area" class="flex-grow flex items-center justify-center w-full max-h-40vh my-4 relative overflow-hidden">
-        <div id="placeholder-text" class="text-gray-600 text-xl border-2 border-dashed border-gray-700 p-8 rounded-lg">あにめーしょん</div>
-        <video id="timer-video" class="hidden w-full h-full object-contain" loop muted playsinline></video>
-        <img id="celebration-img" class="hidden object-contain drop-shadow-neon" src="" alt="おめでとう">
+        <div id="placeholder-text" class="timer-ready-pulse"></div>
+        <video id="timer-video" class="hidden" loop muted playsinline></video>
+        <div id="finish-text" class="hidden finish-neon-text">おしまい</div>
       </div>
 
       <!-- デジタルタイマー表示 -->
-      <div id="timer-display" class="font-mono text-8xl md:text-9xl neon-yellow">00:00</div>
+      <div id="timer-display" class="font-mono text-8xl neon-yellow">00:00</div>
 
       <!-- 操作ボタンエリア -->
       <div id="timer-controls" class="flex justify-center items-center gap-8 w-full px-4 mb-4">
@@ -49,22 +64,55 @@
 
     <!-- 設定画面 -->
     <div id="screen-settings" class="screen flex flex-col items-center justify-start p-8 gap-8 overflow-y-auto">
-      <h2 class="text-4xl neon-green">せってい</h2>
-      
+      <h2 id="settings-title" class="text-4xl neon-green">せってい</h2>
+
       <div class="settings-group w-full max-w-lg flex flex-col gap-4">
-        <h3 class="text-2xl neon-yellow">タイマーのじかん</h3>
+        <h3 id="label-time" class="text-2xl neon-yellow">タイマーのじかん</h3>
         <div id="timer-duration-options" class="grid grid-cols-3 gap-4">
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="20"> 20秒</label>
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="30"> 30秒</label>
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="60"> 1分</label>
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="120"> 2分</label>
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="180"> 3分</label>
-          <label class="neon-radio-label"><input type="radio" name="timer-duration" value="300"> 5分</label>
+          <label class="neon-radio-label" data-hiragana="20びょう" data-kanji="20秒">
+            <input type="radio" name="timer-duration" value="20">
+            <span class="duration-label">20びょう</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="30びょう" data-kanji="30秒">
+            <input type="radio" name="timer-duration" value="30">
+            <span class="duration-label">30びょう</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="1ふん" data-kanji="1分">
+            <input type="radio" name="timer-duration" value="60">
+            <span class="duration-label">1ふん</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="2ふん" data-kanji="2分">
+            <input type="radio" name="timer-duration" value="120">
+            <span class="duration-label">2ふん</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="3ふん" data-kanji="3分">
+            <input type="radio" name="timer-duration" value="180">
+            <span class="duration-label">3ふん</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="5ふん" data-kanji="5分">
+            <input type="radio" name="timer-duration" value="300">
+            <span class="duration-label">5ふん</span>
+          </label>
+          <label class="neon-radio-label" data-hiragana="10ふん" data-kanji="10分">
+            <input type="radio" name="timer-duration" value="600">
+            <span class="duration-label">10ふん</span>
+          </label>
         </div>
       </div>
 
       <div class="settings-group w-full max-w-lg flex flex-col gap-4">
-        <h3 class="text-2xl neon-pink">おと</h3>
+        <h3 id="label-custom-time" class="text-2xl neon-yellow">じぶんでじかんをきめる</h3>
+        <div class="custom-time-row">
+          <input type="number" id="custom-minutes" class="time-number-input" min="0" max="99" value="0">
+          <span id="label-min-unit" class="time-unit-label">ふん</span>
+          <input type="number" id="custom-seconds" class="time-number-input" min="0" max="59" value="0">
+          <span id="label-sec-unit" class="time-unit-label">びょう</span>
+        </div>
+        <button id="btn-set-custom-time" class="neon-btn neon-yellow-border text-xl px-8 py-4 rounded-full">このじかんにする</button>
+      </div>
+
+      <div class="settings-group w-full max-w-lg flex flex-col gap-4">
+        <h3 id="label-audio" class="text-2xl neon-pink">おと</h3>
         <div class="flex flex-col gap-2">
           <button id="audio-record" class="neon-btn-simple">声をろくおんする</button>
           <input type="file" id="audio-upload" accept="audio/*" class="hidden">
@@ -74,23 +122,17 @@
       </div>
 
       <div class="settings-group w-full max-w-lg flex flex-col gap-4">
-        <h3 class="text-2xl neon-white">てんめつ がぞう</h3>
-        <div class="grid grid-cols-2 gap-2">
-          <div id="preset-img-1" class="img-preview border-2 border-neon-pink p-1 cursor-pointer">
-            <img src="" class="w-full h-20 object-cover" id="thumb-1">
-            <span class="text-xs">がぞう1</span>
-          </div>
-          <div id="preset-img-2" class="img-preview border-2 border-neon-green p-1 cursor-pointer">
-            <img src="" class="w-full h-20 object-cover" id="thumb-2">
-            <span class="text-xs">がぞう2</span>
-          </div>
-        </div>
+        <h3 id="label-display" class="text-2xl neon-purple">ひょうじ</h3>
+        <label id="kanji-toggle-wrapper" class="neon-radio-label neon-purple-border">
+          <input type="checkbox" id="toggle-kanji" class="kanji-checkbox">
+          <span id="kanji-toggle-label">かんじをつかう</span>
+        </label>
       </div>
 
       <button id="btn-back-to-start" class="neon-btn neon-white-border text-2xl px-12 py-4 rounded-full mt-4">もどる</button>
     </div>
 
   </div>
-  <script type="module" src="/main.js"></script>
+  <script src="./main.js"></script>
 </body>
 </html>
