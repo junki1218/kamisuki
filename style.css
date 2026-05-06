@@ -45,18 +45,28 @@ h1, h2, .font-mono {
 .flex-wrap { flex-wrap: wrap; }
 .w-full { width: 100%; }
 .h-full { height: 100%; }
+.h-screen { height: 100vh; }
+.h-8  { height: 2rem; }
+.h-10 { height: 2.5rem; }
 .relative { position: relative; }
+.absolute { position: absolute; }
 .fixed { position: fixed; }
 .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.p-4 { padding: 1rem; }
 .p-8 { padding: 2rem; }
-.gap-8 { gap: 2rem; }
+.p-1 { padding: 0.25rem; }
+.gap-2 { gap: 0.5rem; }
 .gap-4 { gap: 1rem; }
+.gap-8 { gap: 2rem; }
+.gap-12 { gap: 3rem; }
 .overflow-hidden { overflow: hidden; }
 .overflow-y-auto { overflow-y: auto; }
 .max-h-30vh { max-height: 30vh; }
 .max-h-40vh { max-height: 40vh; }
 .max-h-50vh { max-height: 50vh; }
 .object-contain { object-fit: contain; }
+.object-cover { object-fit: cover; }
+.bg-gray-900 { background-color: #111827; }
 
 /* Text sizes */
 .text-xs { font-size: 0.75rem; }
@@ -92,8 +102,10 @@ h1, h2, .font-mono {
 /* Other */
 .hidden { display: none !important; }
 .pointer-events-none { pointer-events: none; }
-.z-50 { z-index: 50; }
+.z-0  { z-index: 0; }
+.z-10 { z-index: 10; }
 .z-40 { z-index: 40; }
+.z-50 { z-index: 50; }
 .inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
 .transition-opacity { transition-property: opacity; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
 .duration-100 { duration: 100ms; }
@@ -119,16 +131,18 @@ h1, h2, .font-mono {
 }
 
 #start-bg {
-  background-image: url('/assets/start_bg.jpg');
+  background-image: url('./assets/start_bg.jpg');
   background-size: cover;
   background-position: center;
   opacity: 0.8 !important; /* Increase visibility */
 }
 
 video#timer-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* Fill the area */
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   display: block;
 }
 
@@ -185,40 +199,95 @@ video#timer-video {
 }
 
 /* --- Animations --- */
-@keyframes flash-white {
-  0%, 100% { opacity: 0; background-color: white; }
-  50% { opacity: 1; background-color: white; }
-}
 
-#flash-overlay.active-white {
-  animation: flash-white 0.8s infinite;
-  background-color: white;
-}
-
-#flash-overlay.active-img {
-  opacity: 1;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-@keyframes flash-preset {
-  0% { opacity: 0; }
-  50% { opacity: 1; }
+/* タイマー終了時の白フラッシュ（3回だけ自動停止） */
+@keyframes end-flash {
+  0%   { opacity: 0; }
+  8%   { opacity: 0.85; }
+  22%  { opacity: 0; }
+  38%  { opacity: 0.85; }
+  52%  { opacity: 0; }
+  68%  { opacity: 0.85; }
+  82%  { opacity: 0; }
   100% { opacity: 0; }
 }
 
-.animate-flash {
-  animation: flash-white 0.8s infinite;
+.flash-once {
+  animation: end-flash 1.5s ease-out forwards;
+  background-color: white !important;
+}
+
+/* 終了画像のパルス */
+@keyframes celebration-glow {
+  0%, 100% { transform: scale(1);    filter: drop-shadow(0 0 12px #ff00ff) drop-shadow(0 0 24px #ff00ff); }
+  50%       { transform: scale(1.06); filter: drop-shadow(0 0 28px #ff00ff) drop-shadow(0 0 56px #ff00ff); }
+}
+
+.celebration-pulse {
+  animation: celebration-glow 1.4s ease-in-out infinite;
+}
+
+/* プログレスバー 残り少ない時の点滅 */
+@keyframes progress-urgent {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+.progress-urgent {
+  animation: progress-urgent 0.55s ease-in-out infinite;
+}
+
+/* --- タイマー画面ヘッダー（ナビボタン + プログレスバー） --- */
+.timer-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 0.6rem;
+  padding: 0 0.25rem;
+}
+
+.timer-nav-btns {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.progress-wrapper {
+  flex: 1;
+}
+
+.icon-btn {
+  width: 3.2rem;
+  height: 3.2rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.icon-btn:active {
+  transform: scale(0.88);
+}
+
+.icon-btn.is-paused {
+  border-color: var(--neon-yellow);
+  box-shadow: 0 0 10px var(--neon-yellow);
 }
 
 .progress-container {
-  width: 90%;
-  margin: 0 auto;
+  width: 100%;
 }
 
 #progress-bar {
-  box-shadow: 0 0 20px var(--neon-green);
+  background-color: #00ff00;
+  box-shadow: 0 0 18px #00ff00, 0 0 36px #00ff00;
+  transition: background-color 0.6s ease, box-shadow 0.6s ease;
 }
 
 .drop-shadow-neon {
@@ -262,7 +331,25 @@ video#timer-video {
   text-align: center;
   width: 150px;
   overflow: hidden;
-  margin: 0 auto; /* Center in grid */
+  margin: 0 auto;
+}
+
+/* 設定画面 終了画像プレビュー（1枚・横幅いっぱい） */
+.img-preview-full {
+  background: #111;
+  text-align: center;
+  width: 100%;
+  max-width: 320px;
+  margin: 0 auto;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.end-thumb {
+  width: 100%;
+  max-height: 150px;
+  object-fit: contain;
+  display: block;
 }
 
 /* New styles for radio buttons */
@@ -306,6 +393,92 @@ input[type="radio"]:checked + .neon-radio-label {
   box-shadow: 0 0 15px var(--neon-yellow);
 }
 
+
+/* --- 任意時間入力 --- */
+.custom-time-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.time-number-input {
+  background: #1a1a1a;
+  border: 2px solid var(--neon-yellow);
+  color: white;
+  border-radius: 8px;
+  font-size: 1.8rem;
+  font-family: 'Orbitron', sans-serif;
+  width: 5.5rem;
+  text-align: center;
+  padding: 0.3rem 0.4rem;
+  -moz-appearance: textfield;
+}
+
+.time-number-input:focus {
+  outline: none;
+  box-shadow: 0 0 12px var(--neon-yellow);
+}
+
+.time-number-input::-webkit-outer-spin-button,
+.time-number-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.time-unit-label {
+  font-size: 1.3rem;
+  color: var(--neon-yellow);
+  text-shadow: 0 0 8px var(--neon-yellow);
+  white-space: nowrap;
+}
+
+/* --- Kanji Toggle Checkbox --- */
+.kanji-checkbox {
+  width: 1.4rem;
+  height: 1.4rem;
+  margin-right: 0.75rem;
+  accent-color: var(--neon-purple);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* --- Timer Ready Pulse (replaces placeholder text) --- */
+.timer-ready-pulse {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 4px solid var(--neon-green);
+  box-shadow: 0 0 20px var(--neon-green), inset 0 0 20px rgba(0,255,0,0.15);
+  animation: ready-pulse 2s ease-in-out infinite;
+}
+
+@keyframes ready-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.5; box-shadow: 0 0 15px var(--neon-green); }
+  50%       { transform: scale(1.15); opacity: 1;   box-shadow: 0 0 40px var(--neon-green), inset 0 0 20px rgba(0,255,0,0.3); }
+}
+
+/* --- おしまいテキスト --- */
+.finish-neon-text {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  font-size: 5rem;
+  font-weight: 700;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  user-select: none;
+  text-shadow:
+    0 0 10px #ff00ff,
+    0 0 30px #ff00ff,
+    0 0 60px #ff00ff,
+    0 0 100px #ff00ff;
+  animation: finish-pulse 0.85s ease-in-out infinite;
+}
+
+@keyframes finish-pulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.4); }
+}
 
 /* --- Alert Appearance --- */
 .neon-btn-flash {
